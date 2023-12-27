@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import './TicTacToe.css'
 import oIcon from '../assets/o.png'
 import xIcon from '../assets/x.png'
@@ -7,9 +7,10 @@ function TicTacToe() {
 
     const [turn,setTurn] = useState(0);
     const [board,setBoard] = useState(["","","","","","","","",""]);
+    const [winner,setWinner] = useState(null);
 
     const clickHandler = (index)=>{
-        if(board[index] !== "") return;
+        if(board[index] !== "" || winner) return;
 
         const copy = [...board];
         if(turn%2===0){
@@ -29,9 +30,63 @@ function TicTacToe() {
         }
     }
 
+    const determineWinner = (board)=>{
+        //check rows
+        for(let i  = 0 ; i < 3 ; i++){
+            if(board[i*3] === "" || board[i*3+1] === "" || board[i*3+2] === "" ){
+                continue;
+            } else if(board[i*3] === board[i*3+1] && board[i*3+1] === board[i*3+2]){
+                return board[i*3]
+            }
+        }
+
+        //check columns
+        for(let i  = 0 ; i < 3 ; i++){
+            if(board[i] === "" || board[i+3] === "" || board[i+6] === "" ){
+                continue;
+            } else if(board[i] === board[i+3] && board[i+3] === board[i+6]){
+                return board[i]
+            }
+        }
+
+        //check left-right diag
+        if(board[0] === board[4] && board[4] === board[8]){
+            return board[0];
+        }
+
+        //check right-left diag
+        if(board[2] === board[4] && board[4] === board[6]){
+            return board[2]
+        }
+
+        //check if draw
+        if(!board.includes("")) return 'draw';
+    }
+
+    const resetGame = () =>{
+        setTurn(0);
+        setBoard(["","","","","","","","",""]);
+        setWinner(null);
+    }
+
+    useMemo(()=>{
+        const winner = determineWinner(board);
+        if(winner){
+            setWinner(winner);
+        }
+    },[board]);
+
     return (
-        <div>
-            <span>TicTacToe</span>
+        <>
+            <div className='title'>
+                TicTacToe
+            </div>
+            <div className="turn-counter" style={winner === null? {}:{display:'none'}}>Current turn = {turn%2===0? 'O':'X'}</div>
+            <div className='title' style={winner === null? {display:'none'}:{}}>
+                {winner && winner === 'draw'? 'Nobody wins!':''}
+                {winner && winner !== 'draw'? `Winner is ${winner}!`:''}
+            </div>
+
             <div className="board">
                 {board.map((box,index)=> (
                     <div
@@ -42,7 +97,10 @@ function TicTacToe() {
                     </div>
                 ))}
             </div>
-        </div>
+            <div className="button">
+                <button onClick={() => resetGame()}>Reset</button>
+            </div>
+        </>
     )
 }
 
