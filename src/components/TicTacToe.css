@@ -7,15 +7,6 @@
     justify-content: center;
 }
 
-.turn-counter{
-    text-align: center;
-    color: white;
-    font-size: 24px;
-    padding: 0.5rem;
-    margin: 1rem;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
 .board{
     aspect-ratio: 1/1;
     max-height: 40rem;

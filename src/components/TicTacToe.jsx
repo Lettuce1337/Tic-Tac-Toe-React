@@ -81,7 +81,7 @@ function TicTacToe() {
             <div className='title'>
                 TicTacToe
             </div>
-            <div className="turn-counter" style={winner === null? {}:{display:'none'}}>Current turn = {turn%2===0? 'O':'X'}</div>
+            <div className="title" style={winner === null? {}:{display:'none'}}>Current turn = {turn%2===0? 'O':'X'}</div>
             <div className='title' style={winner === null? {display:'none'}:{}}>
                 {winner && winner === 'draw'? 'Nobody wins!':''}
                 {winner && winner !== 'draw'? `Winner is ${winner}!`:''}
