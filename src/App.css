@@ -7,6 +7,6 @@ body{
 }
   
 ::-webkit-scrollbar-thumb {
-    background: rgba(19, 19, 19, 0.671);
+    background: rgba(0, 0, 0, 0.671);
     border-radius: 10px;
 }
